@@ -3,6 +3,9 @@
 import { useState, useEffect } from 'react'; // Import state and effect hooks from React
 import Link from 'next/link'; // Import Link for internal routing
 
+const [editingId, setEditingId] = useState(null);
+const [editText, setEditText] = useState('');
+
 export default function TodoPage() { // Our main functional component for the page
   const [todos, setTodos] = useState([]); // Create state to store our list of todos
   const [input, setInput] = useState(''); // Create state to manage the text in our input field
@@ -45,16 +48,9 @@ export default function TodoPage() { // Our main functional component for the pa
     }
   };
 
-  const deleteTodo = async (id) => { // Function to remove a task
-    try {
-      const res = await fetch(`/api/todos/${id}`, { method: 'DELETE' }); // Call our dynamic API route with the ID
-      if (res.ok) { // If deletion worked...
-        setTodos(todos.filter((t) => t._id !== id)); // ...remove that item from our local UI state
-      }
-    } catch (error) {
-      console.error('Failed to delete:', error);
-    }
-  };
+  const deleteTodo = (id) => {
+  setTodos(todos.filter((t) => t._id !== id));
+};
 
   const toggleTodo = async (id, completed) => { // Function to check/uncheck a task
     try {
@@ -129,6 +125,9 @@ export default function TodoPage() { // Our main functional component for the pa
       </Link>
          <Link href="/about" className="mt-10 text-slate-400 font-medium hover:text-blue-500 transition-colors">
         Company →
+      </Link>
+             <Link href="/todolist" className="mt-10 text-slate-400 font-medium hover:text-blue-500 transition-colors">
+        Go to Todo List Page →
       </Link>
     </div>
   );
